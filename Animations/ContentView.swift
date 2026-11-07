@@ -8,32 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var animationAmount = 1.0
+    @State private var isShowingRed = false
     var body: some View {
         VStack {
             Button("Tap Me") {
-//                animationAmount += 1
+                withAnimation {
+                    isShowingRed.toggle()
+                }
             }
-            .padding(50)
-            .background(.red)
-            .foregroundStyle(.white)
-            .clipShape(.circle)
-            .overlay(
-                Circle()
-                    .stroke(.blue)
-                    .scaleEffect(animationAmount)
-                    .opacity(2 - animationAmount)
-                    .animation(
-                        .easeOut(duration: 2)
-                            .repeatForever(autoreverses: true),
-                        value: animationAmount
-                    )
-            )
-           
-        }
-        .padding()
-        .onAppear{
-            animationAmount = 2
+
+            if isShowingRed {
+                Rectangle()
+                    .fill(.red)
+                    .frame(width: 200, height: 200)
+//                    .transition(.scale)
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+
+            }
         }
     }
 }
